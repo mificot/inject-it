@@ -159,12 +159,26 @@ describe('Container', () => {
   })
 
   it('should throw if dependency is not registered with @Injectable', () => {
+    // eslint-disable-next-line @typescript-eslint/no-extraneous-class
     class SomeClass {}
 
     @Injectable()
     class Class {
       @Inject()
       private readonly someClass!: SomeClass
+    }
+
+    expect(() => container.resolve(Class)).toThrow()
+  })
+
+  it('should throw if dependency is undefined', () => {
+    // eslint-disable-next-line @typescript-eslint/no-empty-interface
+    interface SomeInterface {}
+
+    @Injectable()
+    class Class {
+      @Inject()
+      private readonly someDependency!: SomeInterface
     }
 
     expect(() => container.resolve(Class)).toThrow()
