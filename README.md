@@ -6,7 +6,14 @@ This is **yet another** simple dependency injection tool that will help you reso
 Main features:
 - property based injection
 - support for multiple DI containers
+- constructor based injection
 
+## Changelog
+
+### 1.1.0
+- Add constructor based injections
+- Add auto resolve constructor dependencies (no need to use **@Inject** on Injectables dependencies)
+- Fix issue with resolving non-injectable dependencies
 
 ## Disclaimer
 This project was built to understand how decorators and Reflect working in TypeScript and how Dependecy Injection can be impletented.
@@ -27,13 +34,13 @@ import 'reflect-metadata'
 // your source code
 ```
 
-Also you need to enable emmiting decorator metadata in ```tsconfig.json``` file under ```compilerOptions``` key:
+Also you need to enable emitting decorator metadata in ```tsconfig.json``` file under ```compilerOptions``` key:
 
 ```json
 {
   "compilerOptions": {
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
+    "emitDecoratorMetadata": true
   }
 }
 ```
@@ -63,6 +70,6 @@ class BaseClass {
 container.resolve(BaseClass).injectableClass.action() // logs: "hello there"
 ```
 ## Todo
-- [ ] Constructor based injection
+- [x] Constructor based injection
 - [ ] Global container
 - [ ] More docs

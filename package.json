@@ -1,12 +1,12 @@
 {
   "name": "@mificot/inject-it",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Yet another simple dependency injection tool that will help you resolve dependencies to focus on logic instead of how and when provide dependencies",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsup",
+    "build": "tsup --tsconfig=tsconfig.tsup.json",
     "prepublishOnly": "npm run build",
     "test": "jest"
   },

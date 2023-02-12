@@ -1,10 +1,11 @@
 import { type Constructable } from './types/constructable.type'
 import { type Token } from './types/token.type'
-import { Registry } from './registry'
+import { type Registry } from './types/registry.type'
 import { Resolver } from './resolver'
+import { createRegistry } from './utils'
 
 export class Container {
-  private readonly registry = new Registry()
+  private readonly registry: Registry = createRegistry()
 
   public resolve<T extends Token>(token: T): T extends Constructable<infer D> ? D : T {
     let value = this.registry.get(token)

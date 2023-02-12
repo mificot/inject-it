@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["reflect-metadata"]
+  },
+  "exclude": [
+    "node_modules",
+    "__test__"
+  ]
+}
