@@ -88,4 +88,99 @@ describe('Container', () => {
     expect(instance.dependency.dependency).toBeInstanceOf(Class)
     expect(instance.dependency.dependency).toBe(instance)
   })
+
+  it('should resolve constructor dependencies marked using @Inject decorator', () => {
+    @Injectable()
+    class SomeClass {}
+
+    @Injectable()
+    class Class {
+      constructor (
+        @Inject()
+        public readonly someClass: SomeClass
+      ) {
+      }
+    }
+
+    const instance = container.resolve(Class)
+
+    expect(instance.someClass).toBeDefined()
+    expect(instance.someClass).toBeInstanceOf(SomeClass)
+  })
+
+  it('should resolve multiple constructor dependencies marked using @Inject decorator', () => {
+    @Injectable()
+    class SomeClass {}
+
+    @Injectable()
+    class AnotherClass {}
+
+    @Injectable()
+    class Class {
+      constructor (
+        @Inject()
+        public readonly someClass: SomeClass,
+        @Inject()
+        public readonly anotherClass: AnotherClass
+      ) {
+      }
+    }
+
+    const instance = container.resolve(Class)
+
+    expect(instance.someClass).toBeDefined()
+    expect(instance.someClass).toBeInstanceOf(SomeClass)
+    expect(instance.anotherClass).toBeDefined()
+    expect(instance.anotherClass).toBeInstanceOf(AnotherClass)
+  })
+
+  it('should auto resolve constructor dependencies', () => {
+    @Injectable()
+    class SomeClass {}
+
+    @Injectable()
+    class AnotherClass {}
+
+    @Injectable()
+    class Class {
+      constructor (
+        public readonly someClass: SomeClass,
+        public readonly anotherClass: AnotherClass
+      ) {
+      }
+    }
+
+    const instance = container.resolve(Class)
+
+    expect(instance.someClass).toBeDefined()
+    expect(instance.someClass).toBeInstanceOf(SomeClass)
+    expect(instance.anotherClass).toBeDefined()
+    expect(instance.anotherClass).toBeInstanceOf(AnotherClass)
+  })
+
+  it('should throw if dependency is not registered with @Injectable', () => {
+    // eslint-disable-next-line @typescript-eslint/no-extraneous-class
+    class SomeClass {}
+
+    @Injectable()
+    class Class {
+      @Inject()
+      private readonly someClass!: SomeClass
+    }
+
+    expect(() => container.resolve(Class)).toThrow()
+  })
+
+  it('should throw if dependency is undefined', () => {
+    // eslint-disable-next-line @typescript-eslint/no-empty-interface
+    interface SomeInterface {}
+
+    @Injectable()
+    class Class {
+      @Inject()
+      private readonly someDependency!: SomeInterface
+    }
+
+    expect(() => container.resolve(Class)).toThrow()
+  })
 })

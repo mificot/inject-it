@@ -1,6 +1,6 @@
 import { type InjectToken } from './inject-token.type'
 
-export interface PropertyResolver {
+export interface ParameterResolver {
   token: InjectToken
-  propertyKey: string | symbol
+  index: number
 }
